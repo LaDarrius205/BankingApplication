@@ -12,6 +12,7 @@
     <Name>BankingApplication</Name>
     <RootNamespace>BankingApplication</RootNamespace>
     <InterpreterId>CondaEnv|CondaEnv|FinancialApp</InterpreterId>
+    <SuppressEnvironmentCreationPrompt>True</SuppressEnvironmentCreationPrompt>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
