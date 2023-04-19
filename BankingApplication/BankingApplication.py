@@ -36,6 +36,7 @@ def finishRegister():
             new_file.write(password+'\n')
             new_file.write(age+'\n')
             new_file.write(email+'\n')
+            new_file.write("0")
             new_file.close()
             notif.config(fg='green', text="Account has been created")
        
@@ -52,7 +53,7 @@ def register():
     temp_age = StringVar()
     temp_email = StringVar()
     temp_password = StringVar()
-    print("This is the Register screen")
+   #print("This is the Register screen")
 
     ###Register Screen... Error not reading
     #Creates a little window once the button is pressed
@@ -89,10 +90,65 @@ def register():
     #Button error <newline> Unexpected Token
     Button(register_Screen, text="Register", command = finishRegister, 
            font = ("Calibri", 12)).grid(row = 5, sticky = N, pady = 10)
-    
+
+
+def login_session():
+    all_accounts = os.listdir()
+    login_name = temp_login_name.get()
+    login_password = temp_login_password.get()
+
+    for name in all_accounts:
+        if name == login_name:
+           file = open(name,"r")
+           file_data = file.read()
+           file_data = file_data.split('\n')
+           password = file_data[1]
+           #Account DashBoard
+           if login_password == password:
+               login_screen.destroy()
+               account_dashboard = Toplevel(master)
+               account_dashboard.title('Account Dashboard')
+               return
+           else:
+                login_notif.config(fg='red', text="Password incorrect!!!")
+           return
+    login_notif.config(fg='red', text = "No account found ??")
+
 
 def login():
-     print('this is the login page')
+
+     ## Variables
+     global temp_login_name
+     global temp_login_password
+     global login_notif
+     global login_password
+     global login_screen
+     temp_login_name = StringVar()
+     temp_login_password = StringVar()
+
+     ## Login screen
+     login_screen = Toplevel(master)
+     login_screen.title('Login')
+
+     ## Label
+     Label(login_screen, text="Login to your account", 
+           font=('Calibri',12)).grid(row=0,sticky=N,pady=10) 
+     Label(login_screen, text="Login", 
+           font=('Calibri',12)).grid(row=1,sticky=W,pady=10)
+     Label(login_screen, text="Password", 
+           font=('Calibri',12)).grid(row=2,sticky=W,pady=10)
+
+     ## Note 
+     login_notif = Label(login_screen, font = ("Calibri",12))
+     login_notif.grid(row = 4, sticky = N)
+
+     ## Entry
+     Entry(login_screen, 
+           textvariable=temp_login_name).grid(row=1,column=1,padx=5)
+     Entry(login_screen, 
+           textvariable=temp_login_password, show = '*').grid(row=2,column=1,padx=5)
+     Button(login_screen, text="Login", 
+            command = login_session, width=15, font =("Calibri", 12)).grid(row=3,sticky=W,padx=5)
 
 
 ## Check Path using os
